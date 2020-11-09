@@ -106,31 +106,61 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
                         RecieveArmor(_helmetOwned);
 
                     }
-
                 }
-
-                if (armor is Chest && _chestOwned !=null && _chestOwned.Health < armor.Health)
+                if (armor is Chest)
                 {
-                    _chestOwned = armor as Chest;
-                    RecieveArmor(_chestOwned);
+                    if (_chestOwned != null && _chestOwned.Health < armor.Health)
+                    {
+                        _chestOwned = armor as Chest;
+                        RecieveArmor(_chestOwned);
+                    }
+                    else if (_chestOwned == null)
+                    {
+                        _chestOwned = armor as Chest;
+                        RecieveArmor(_chestOwned);
+
+                    }
                 }
-
-                if (armor is Legs && _legsOwned != null && _legsOwned.Health < armor.Health)
+                if (armor is Legs)
                 {
-                    _legsOwned = armor as Legs;
-                    RecieveArmor(_legsOwned);
+                    if (_legsOwned != null && _legsOwned.Health < armor.Health)
+                    {
+                        _legsOwned = armor as Legs;
+                        RecieveArmor(_legsOwned);
+                    }
+                    else if (_helmetOwned == null)
+                    {
+                        _legsOwned = armor as Legs;
+                        RecieveArmor(_legsOwned);
+
+                    }
                 }
-
-                if (armor is Boots && _bootsOwned != null && _bootsOwned.Health < armor.Health)
+                if (armor is Boots)
                 {
-                    _bootsOwned = armor as Boots;
-                    RecieveArmor(_bootsOwned);
+                    if (_bootsOwned != null && _bootsOwned.Health < armor.Health)
+                    {
+                        _bootsOwned = armor as Boots;
+                        RecieveArmor(_bootsOwned);
+                    }
+                    else if (_helmetOwned == null)
+                    {
+                        _bootsOwned = armor as Boots;
+                        RecieveArmor(_bootsOwned);
+                    }
                 }
-
-                if (armor is Shield && _shieldOwned != null && _shieldOwned.Health < armor.Health)
+                if (armor is Shield)
                 {
-                    _shieldOwned = armor as Shield;
-                    RecieveArmor(_shieldOwned);
+                    if (_shieldOwned != null && _shieldOwned.Health < armor.Health)
+                    {
+                        _shieldOwned = armor as Shield;
+                        RecieveArmor(_shieldOwned);
+                    }
+                    else if (_helmetOwned == null)
+                    {
+                        _shieldOwned = armor as Shield;
+                        RecieveArmor(_shieldOwned);
+
+                    }
                 }
             }
         }
