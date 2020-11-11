@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
     {
         private string _name;
         private int _health;
+        private int _armorPoint;
         private int _baseDamage;
         private int _goldOwned;
         private List<IDefence> _armorList = new List<IDefence>();
@@ -27,6 +29,7 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
         {
             _name = name;
             _health = 100;
+            _armorPoint = 0;
             _baseDamage = 5;
             _goldOwned = 0;
             _helmetOwned = null;
@@ -42,7 +45,33 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
             return _swordOwned.DamageVariance;
         }
 
+        public int CombinedHealthItems()
+        {
+            int sum = _health;
+            IEnumerable<IDefence> items = 
+                from ab in _armorList
+                where ab.Health > 0 
+                select ab;
+            foreach (var item in items)
+            {
+                sum += item.Health;
+            }
+            return sum;
+        }
 
+        public int CombinedArmorItems()
+        {
+            int sum = 0;
+            IEnumerable<IDefence> items =
+                from ab in _armorList
+                where ab.ArmorPoint > 0
+                select ab;
+            foreach (var item in items)
+            {
+                sum += item.ArmorPoint;
+            }
+            return sum;
+        }
 
         public int DamageRecieved(int damage)
         {
@@ -54,12 +83,13 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
 
         public void RecieveArmor(IDefence armor)
         {
-            _health = _health + armor.Health;
+
             _armorList.Add(armor);
         }
 
         public void RecieveWeapon(IOffence weapon)
         {
+            _swordOwned = weapon;
             _baseDamage = _baseDamage + weapon.DamageVariance;
             _weaponList.Add(weapon);
         }
@@ -69,15 +99,16 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
             get { return _health <= 0; }
         }
 
-        public override string ToString()
-        {
-            return $"{nameof(_helmetOwned)}: {_helmetOwned}, {nameof(_chestOwned)}: {_chestOwned}, {nameof(_legsOwned)}: {_legsOwned}, {nameof(_bootsOwned)}: {_bootsOwned}, {nameof(_swordOwned)}: {_swordOwned}, {nameof(_shieldOwned)}: {_shieldOwned}";
-        }
+        //public override string ToString()
+        //{
+        //    return $"{nameof(_helmetOwned)}: {_helmetOwned}, {nameof(_chestOwned)}: {_chestOwned}, {nameof(_legsOwned)}: {_legsOwned}, {nameof(_bootsOwned)}: {_bootsOwned}, {nameof(_swordOwned)}: {_swordOwned}, {nameof(_shieldOwned)}: {_shieldOwned}";
+        //}
 
 
         public int PositionX { get; set; }
         public int PositionY { get; set; }
 
+        #region LootMethod
         public void Loot(IPosition position)
         {
             EquipmentBase equipment = position as EquipmentBase;
@@ -89,6 +120,7 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
                     _swordOwned = weapon;
                     RecieveWeapon(weapon);
                 }
+
             }
             else if (equipment.Category == EquipmentCategory.armor)
             {
@@ -164,6 +196,13 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
                 }
             }
         }
-        
+
+        #endregion
+
+
+        public override string ToString()
+        {
+            return $"Name: {_name} Health: {CombinedHealthItems()},ArmorPoint: {CombinedArmorItems()}, MinDamage: {_swordOwned.MinDamage} MaxDamage: {_swordOwned.MaxDamage} Description: {_swordOwned.Description}";
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+using System.Threading.Channels;
 using MandatoryAssignmentFrameworkASC;
 using MandatoryAssignmentFrameworkASC.Creatures;
 using MandatoryAssignmentFrameworkASC.Equipment;
@@ -17,12 +19,12 @@ namespace TestClass
         {
             World world = new World(30,30);
             Hero hero = new Hero("Caspar");
-            Bear bear = new Bear(150,20,30,"brown bear");
+            Bear bear = new Bear(150,15,23,"brown bear");
             Helmet helmet = new Helmet(20, 5, "Steel Helmet", 6);
-            Sword sword = new Sword(15, 25, 4, "Rougth Sword");
-            hero.RecieveArmor(helmet);
-            hero.RecieveWeapon(sword);
-            IOffence EW = new OffenceDecorator(sword,1.7);
+            Chest chest = new Chest(30,7,"iron chest",9);
+            Sword sword1 = new Sword(20, 30, 4, "Rougth Sword");
+            hero.RecieveWeapon(sword1);
+            IOffence EW = new OffenceDecorator(sword1,1.7);
             Console.WriteLine(EW);
             bear.PositionX = 15;
             bear.PositionY = 15;
@@ -31,13 +33,34 @@ namespace TestClass
             Console.WriteLine(bear.PositionY);
             Console.WriteLine(world.Hero.PositionX);
             Console.WriteLine(world.Hero.PositionY);
-            Console.WriteLine("is there a bear nearby"+ world.Nearby());
+            Console.WriteLine("is there a bear nearby" + world.Nearby());
             IDefence defence = Factory.Create();
             Console.WriteLine(defence);
             defence = Factory.Create();
             Console.WriteLine(defence);
-            
-            //world.Combat();
+            hero.RecieveArmor(chest);
+            hero.RecieveArmor(helmet);
+            Console.WriteLine(hero);
+            Console.WriteLine(bear);
+            while (!hero.Dead && !bear.Dead)
+            {
+                int damage = hero.DamageDealt();
+                bear.ReceiveDamage(damage);
+                Console.WriteLine(bear);
+                int beardamage = bear.DamageVariance;
+                hero.DamageRecieved(beardamage);
+                Console.WriteLine(hero);
+            }
+
+            if (hero.Dead)
+            {
+                Console.WriteLine("hero is dead");
+            }
+            else
+            {
+                Console.WriteLine("bear is dead");
+            }
+
             //helmet.PositionX = 15;
             //helmet.PositionY = 15;
             //world.AddEquipment(helmet);
@@ -46,36 +69,16 @@ namespace TestClass
             //Console.WriteLine(hero);
             //world.LootNearbyEquipment();
             //Console.WriteLine(hero);
-
-            //Console.WriteLine(hero);
-            //while (!hero.Dead && !bear.Dead)
-            //{
-            //    int damage = hero.DamageDealt();
-            //    bear.ReceiveDamage(damage);
-            //    Console.WriteLine(bear);
-            //    int beardamage = bear.DamageVariance;
-            //    hero.DamageRecieved(beardamage);
-            //    Console.WriteLine(hero);
-            //}
-
-
-            //if (hero.Dead)
-            //{
-            //    Console.WriteLine("hero is dead");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("bear is dead");
-            //}
+           
 
 
 
 
-            Sword s1 = new Sword(40, 60, 2, "sword");
-            Console.WriteLine(s1);
+            //Sword s1 = new Sword(40, 60, 2, "sword");
+            //Console.WriteLine(s1);
             //IOffence enchantedW = new OffenceDecorator(s1, 1.2);
             //Console.WriteLine(enchantedW);
-            
+
         }
     }
 }

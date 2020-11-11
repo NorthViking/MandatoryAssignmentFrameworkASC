@@ -16,8 +16,8 @@ namespace MandatoryAssignmentFrameworkASC.Equipment.Base
             _procent = procent;
         }
 
-        public int MinDamage { get{return Convert.ToInt32(_weapon.MinDamage * _procent) ; } set {  } }
-        public int MaxDamage { get { return Convert.ToInt32(_weapon.MaxDamage * _procent);} set{} }
+        public int MinDamage { get{return Convert.ToInt32(_weapon.MinDamage * _procent); } set { } }
+        public int MaxDamage { get { return Convert.ToInt32(_weapon.MaxDamage * _procent);} set { } }
 
         public string Description
         {

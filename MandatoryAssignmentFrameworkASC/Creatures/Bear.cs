@@ -11,7 +11,7 @@ namespace MandatoryAssignmentFrameworkASC.Creatures
         public Bear(int health, int minDamage, int maxDamage, string name) : base(
             health, minDamage, maxDamage, name)
         {
-            ArmorDrop = new Boots(15,5,"steal boots",8);
+            
 
         }
 

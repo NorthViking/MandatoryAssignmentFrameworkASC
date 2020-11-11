@@ -97,7 +97,6 @@ namespace MandatoryAssignmentFrameworkASC
                 }
                 
             }
-
             return null;
         }
 
@@ -116,7 +115,6 @@ namespace MandatoryAssignmentFrameworkASC
             _creature = GetNearbyCreature();
             while (!Hero.Dead && !Creature.Dead)
             {
-
                 Hero.DamageDealt();
                 Creature.ReceiveDamage(Hero.DamageDealt());
                 while (!Creature.Dead)
@@ -135,10 +133,8 @@ namespace MandatoryAssignmentFrameworkASC
                 {
                     InitiateFight();
                 }
-
                 return CurrentState;
             }
-
             return CurrentState;
         }
 
